@@ -1,8 +1,6 @@
 import axios from 'axios';
-require('dotenv').config();
-
-const pinataApiKey = process.env.PINATA_API_KEY;
-const pinataApiSecret = process.env.PINATA_API_SECRET;
+const pinataApiKey = ``;
+const pinataApiSecret = `` ;
 
 const pinataApiUrl = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
@@ -21,7 +19,7 @@ export async function uploadToIPFS(file) {
   try {
     const response = await axios.post(pinataApiUrl, formData, pinataHeaders);
     const ipfsHash = response.data.IpfsHash;
-    return `https://ipfs.pinata.cloud/ipfs/${ipfsHash}`;
+    return `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
   } catch (error) {
     console.error('Error uploading file to Pinata:', error);
     throw error;

@@ -1,6 +1,5 @@
 /** @type import('hardhat/config').HardhatUserConfig */
 require("@nomiclabs/hardhat-waffle");
-require('dotenv').config();
 
 
 module.exports = {
@@ -10,8 +9,16 @@ module.exports = {
     liberty: {
       url: "https://liberty20.shardeum.org/",
       chainId: 8081,
-      accounts:[process.env.pk]
+      accounts:[``]
     },
+    mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [``]
+      },
+    sphinx: {
+        url: "https://sphinx.shardeum.org/",
+        accounts: [``]
+        }
   },
   solidity: "0.8.3",
 };
