@@ -1,7 +1,8 @@
 import axios from 'axios';
+require('dotenv').config();
 
-const pinataApiKey = 'YOUR_PINATA_API_KEY';
-const pinataApiSecret = 'YOUR_PINATA_API_SECRET';
+const pinataApiKey = process.env.PINATA_API_KEY;
+const pinataApiSecret = process.env.PINATA_API_SECRET;
 
 const pinataApiUrl = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
