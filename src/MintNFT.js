@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import { connectWallet } from "./connectWallet";
 import { uploadToIPFS } from "./ipfsUploader";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
-
+import {TextField,Button,Typography,Container,Box,Link,Snackbar,Alert,LinearProgress} from "@mui/material";
 
 function MintNFT() {
   const [name, setName] = useState("");
@@ -16,7 +10,8 @@ function MintNFT() {
   const [status, setStatus] = useState("");
   const [ipfsLink, setIpfsLink] = useState("");
   const [imageStatus, setImageStatus] = useState("");
-
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -29,6 +24,7 @@ function MintNFT() {
     setIpfsLink(imageURI);
 
     setStatus("Minting NFT...");
+    setLoading(true);
     const { signer, contract } = await connectWallet();
     const tokenURI = `data:application/json;base64,${btoa(
       JSON.stringify({
@@ -42,6 +38,8 @@ function MintNFT() {
     await transaction.wait();
 
     setStatus("NFT minted!");
+    setAlertOpen(true);
+    setLoading(false);
   };
 
   return (
@@ -92,6 +90,7 @@ function MintNFT() {
           Mint NFT
         </Button>
       </Box>
+      {loading && <LinearProgress />}
       <Box mt={2}>
         <Typography align="center" color="textSecondary">
           {status}
@@ -105,6 +104,16 @@ function MintNFT() {
           </Typography>
         )}
       </Box>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity="success" variant="filled" sx={{ width: "100%" }}>
+          NFT minted successfully!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
