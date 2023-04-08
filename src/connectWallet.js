@@ -11,4 +11,11 @@ export async function connectWallet() {
   return { signer, contract };
   }
   
+  export async function connectMetaMask (){
+    const { signer } = await connectWallet();
+    const address = await signer.getAddress();
+    const balance = await signer.getBalance();
+    const formattedBalance = ethers.utils.formatEther(balance);
+    return {address, formattedBalance}
+  };
   

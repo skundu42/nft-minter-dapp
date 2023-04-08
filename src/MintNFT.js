@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connectWallet } from "./connectWallet";
+import { connectWallet,connectMetaMask } from "./connectWallet";
 import { uploadToIPFS } from "./ipfsUploader";
 import {TextField,Button,Typography,Container,Box,Link,Snackbar,Alert,LinearProgress} from "@mui/material";
 
@@ -12,10 +12,21 @@ function MintNFT() {
   const [imageStatus, setImageStatus] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [walletAddress, setWalletAddress] = useState("");
+  const [walletBalance, setWalletBalance] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
+
+  const handleConnectMetaMask = async () => {
+    const { address, formattedBalance } = await connectMetaMask();
+    setWalletAddress(address);
+    setWalletBalance(formattedBalance);
+  };
+  
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
     setImageStatus("Image selected for upload");
+    setImagePreviewUrl(URL.createObjectURL(e.target.files[0]));
   };
 
   const mint = async () => {
@@ -43,12 +54,34 @@ function MintNFT() {
   };
 
   return (
+    
     <Container maxWidth="sm">
       <Box sx={{ mt: 4, mb: 2 }}>
         <Typography variant="h4" align="center" gutterBottom>
          Shardeum NFT Minter
         </Typography>
       </Box>
+      <Box mt={2}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={handleConnectMetaMask}
+          size="small"
+        >
+          Connect Wallet
+        </Button>
+      </Box>
+      {walletAddress && (
+        <Box mt={2}>
+          <Typography align="center">
+            Wallet Address: {walletAddress}
+          </Typography>
+          <Typography align="center">
+            Wallet Balance: {walletBalance} SHM
+          </Typography>
+        </Box>
+      )}
       <TextField
         fullWidth
         label="NFT Name"
@@ -75,6 +108,11 @@ function MintNFT() {
           Upload Image
         </Button>
       </label>
+      {imagePreviewUrl && (
+        <Box mt={2}>
+          <img src={imagePreviewUrl} alt="Uploaded preview" style={{ width: "100%", maxHeight: "300px", objectFit: "contain" }} />
+        </Box>
+      )}
       {imageStatus && (
         <Typography variant="caption" display="block" gutterBottom>
           {imageStatus}

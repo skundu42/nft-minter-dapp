@@ -11,10 +11,6 @@ module.exports = {
       chainId: 8081,
       accounts:[``]
     },
-    mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
-      accounts: [``]
-      },
     sphinx: {
         url: "https://sphinx.shardeum.org/",
         accounts: [``]

@@ -9,7 +9,7 @@ contract NFTMinter is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("NFTMinter", "NFTM") {}
+    constructor() ERC721("Shardeum Dev NFTMinter", "SNFT") {}
 
     function mintNFT(address recipient, string memory tokenURI) public returns (uint256) {
         _tokenIds.increment();
